@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import org.springframework.http.MediaType;
 import com.example.springboot.model.Employee;
 import com.example.springboot.service.EmployeeService;
 
@@ -26,14 +26,14 @@ public class EmployeeController {
 	EmployeeService employeeService;
 	
 	@ApiOperation(value="employee" , response = Iterable.class)
-	@RequestMapping(value = "/HomePage/listallemployee", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/HomePage/listallemployee", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<Employee> listAllEmployee(){
 		List<Employee> empAll = employeeService.findAllEmployees();
 		return empAll;
 	}
 	
 	@ApiOperation(value="employee" , response= Iterable.class)
-	@RequestMapping(value= "/HomePage/createEmployee", method = RequestMethod.POST)
+	@RequestMapping(value= "/HomePage/createEmployee", method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Employee createEmployee(@RequestBody Employee employee ,UriComponentsBuilder ucBuilder){
 		employeeService.saveEmployee(employee);
 		return employee;
@@ -41,7 +41,7 @@ public class EmployeeController {
 	}
 	
 	@ApiOperation(value="employee" , response = Iterable.class)
-	@RequestMapping(value="/HomePage/updateEmployee" , method = RequestMethod.POST)
+	@RequestMapping(value="/HomePage/updateEmployee" , method = RequestMethod.POST , consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Employee updateEmployee(@RequestBody Employee employee)
 	{
 		employeeService.updateEmployee(employee);
@@ -49,7 +49,7 @@ public class EmployeeController {
 	}
 	
 	@ApiOperation(value="employee", response= Iterable.class)
-	@RequestMapping(value="/HomePage/searchEmployee/{empid}", method = RequestMethod.GET)
+	@RequestMapping(value="/HomePage/searchEmployee/{empid}", method = RequestMethod.GET, produces = "application/json")
 	public Employee findEmployee(@PathVariable("empid") long empid)
 	{
 		return employeeService.findEmployee(empid);
